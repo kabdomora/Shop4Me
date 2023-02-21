@@ -11,7 +11,6 @@ router.get('/', async (req, res) => {
 
     const category = categoryData.get({ plain: true });
     res.json(category);
-
   } catch (err) {
     console.log(err);
     res.status(400).json(err);
@@ -26,7 +25,6 @@ router.get('/:id', async (req, res) => {
 
     const category = categoryData.get({ plain: true });
     res.json(category);
-
   } catch (err) {
     console.log(err);
     res.status(400).json(err);
@@ -48,8 +46,7 @@ router.put('/:id', async (req, res) => {
   try {
     const updateCategory = await Category.update(req.body, req.params.id);
 
-    res.status(200).json(updateCategory);
-    
+    res.status(200).json(updateCategory);    
   } catch (err) {
     console.log(err);
     res.status(400).json(err);
@@ -61,7 +58,6 @@ router.delete('/:id', async (req, res) => {
     const delCategory = await Category.destroy(req.params.id);
 
     res.status(200).json(delCategory);
-
   } catch (err) {
     console.log(err);
     res.status(400).json(err);    
