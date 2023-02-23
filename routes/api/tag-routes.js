@@ -12,13 +12,13 @@ router.get('/', async (req, res) => {
       }],
     });
 
-    const tag = tagData.get({ plain: true})
-    res.json(tag);
+    res.json(tagData);
   } catch (err) {
     console.log(err);
     res.status(400).json(err);
   }
 });
+// yields all stored tags with associated product details
 
 router.get('/:id', async (req, res) => {
   try {
