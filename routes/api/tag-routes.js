@@ -22,11 +22,11 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const tagData = await Tag.findByPk(req.params.id, {
-      include: [{
-        model: Product,
-        through: ProductTag,
-      }],
+    const tagData = await Tag.findOne({ where: {id: req.params.id} ,
+      include: [
+        { model: Product,
+          through: ProductTag, }
+      ],
     });
 
     const tag = tagData.get({ plain: true})
@@ -36,6 +36,7 @@ router.get('/:id', async (req, res) => {
     res.status(400).json(err);
   }
 });
+// yields the single tag stored details with associated product details
 
 router.post('/', async (req, res) => {
   try {
@@ -47,10 +48,11 @@ router.post('/', async (req, res) => {
     res.status(500).json(err);
   }
 });
+// adds a new tag to the db
 
 router.put('/:id', async (req, res) => {
   try {
-    const updateTag = await Tag.update(req.body, req.params.id);
+    const updateTag = await Tag.update(req.body, { where: {id: req.params.id} });
 
     res.status(200).json(updateTag);
   } catch (err) {
@@ -58,10 +60,11 @@ router.put('/:id', async (req, res) => {
     res.status(400).json(err);
   }
 });
+// updates a tag from the db
 
 router.delete('/:id', async (req, res) => {
   try {
-    const delTag = await Tag.destroy(req.params.id);
+    const delTag = await Tag.destroy({ where: {id: req.params.id} });
 
     res.status(200).json(delTag);
   } catch (err) {
@@ -69,5 +72,6 @@ router.delete('/:id', async (req, res) => {
     res.status(400).json(err);    
   }
 });
+// deletes a tag from the db
 
 module.exports = router;
