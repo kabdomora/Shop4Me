@@ -15,8 +15,7 @@ router.get('/', async (req, res) => {
       ],
     });
 
-    const product = productData.get({ plain: true });
-    res.json(product);
+    res.json(productData);
   } catch (err) {
     console.log(err);
     res.status(400).json(err);
@@ -119,7 +118,7 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const delProduct = await Product.destroy(req.params.id);
+    const delProduct = await Product.destroy({ where: {id: req.params.id} });
 
     res.status(200).json(delProduct);
   } catch (err) {

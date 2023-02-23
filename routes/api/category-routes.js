@@ -9,13 +9,13 @@ router.get('/', async (req, res) => {
       include: [Product],
     });
 
-    const category = categoryData.get({ plain: true });
-    res.json(category);
+    res.json(categoryData);
   } catch (err) {
     console.log(err);
     res.status(400).json(err);
   }
 });
+// yields all stored categories with associated product details
 
 router.get('/:id', async (req, res) => {
   try {
@@ -30,6 +30,7 @@ router.get('/:id', async (req, res) => {
     res.status(400).json(err);
   }
 });
+// yields the single category details
 
 router.post('/', async (req, res) => {
   try {
@@ -41,10 +42,11 @@ router.post('/', async (req, res) => {
     res.status(500).json(err);
   }
 });
+// creates new categories
 
 router.put('/:id', async (req, res) => {
   try {
-    const updateCategory = await Category.update(req.body, req.params.id);
+  const updateCategory = await Category.update(req.body, { where: {id: req.params.id} });
 
     res.status(200).json(updateCategory);    
   } catch (err) {
@@ -52,10 +54,11 @@ router.put('/:id', async (req, res) => {
     res.status(400).json(err);
   }
 });
+// uses the id passed through in the request to target a row and updates the specified fields for that object
 
 router.delete('/:id', async (req, res) => {
   try {
-    const delCategory = await Category.destroy(req.params.id);
+    const delCategory = await Category.destroy({ where: {id: req.params.id} });
 
     res.status(200).json(delCategory);
   } catch (err) {
@@ -63,5 +66,6 @@ router.delete('/:id', async (req, res) => {
     res.status(400).json(err);    
   }
 });
+// deletes the object where the id matches the id passed through on the request
 
 module.exports = router;
